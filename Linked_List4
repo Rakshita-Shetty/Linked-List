@@ -1,0 +1,245 @@
+6. Create two separate single lists. Check two list are same. If the two lists have the same number of elements in the same order, then they are treated as same.
+
+
+#include <stdio.h>
+
+#include <stdlib.h>
+
+
+
+struct node{
+
+    int data;
+
+    struct node *next;
+
+};
+
+
+
+int check_if_equal(struct node *head1, struct node *head2) {
+
+
+
+    while(head1 != NULL && head2 != NULL) {
+
+
+
+	    if(head1 -> data != head2 -> data) return 0;
+
+
+	    head1 = head1 -> next;
+
+	    head2 = head2 -> next;
+
+	}
+
+
+
+	if (head1 != NULL)
+
+        return 0;
+
+    if (head2 != NULL)
+
+        return 0;
+
+
+
+    return 1;
+
+}
+
+
+
+void print_list(struct node *head)
+
+{
+
+    printf("H->");
+
+
+
+    while(head)
+
+    {
+
+        printf("%d->", head -> data);
+
+        head = head -> next;
+
+    }
+
+
+
+    printf("||\n\n");
+
+}
+
+
+
+void insert_f(struct node **head, int value)
+
+{
+
+    struct node * new_node = NULL;
+
+
+
+    new_node = (struct node *)malloc(sizeof(struct node));
+
+
+
+    if (new_node == NULL)
+
+    {
+
+        printf("Failed to insert element. Out of memory");
+
+    }
+
+
+
+    new_node -> data = value;
+
+    new_node -> next = *head;
+
+
+
+    *head = new_node;
+
+}
+
+
+
+
+
+struct node* Merges(struct node* head1, struct node* head2)
+
+{
+
+  struct node* result = NULL;
+
+
+
+  /* Base cases */
+
+  if (head1 == NULL)
+
+     return(head2);
+
+  else if (head2==NULL)
+
+     return(head1);
+
+
+
+  /* Pick either a or b, and recur */
+
+  if (head1->data <= head2->data)
+
+  {
+
+     result = head1;
+
+     result->next = Merges(head1->next, head2);
+
+  }
+
+  else
+
+  {
+
+     result = head2;
+
+     result->next = Merges(head1, head2->next);
+
+  }
+
+  return(result);
+
+}
+
+
+
+int main()
+
+{
+
+    struct node * head1 = NULL;
+
+    struct node * head2 = NULL;
+
+
+
+    /*Creating the first linked list*/
+
+    insert_f(&head1, 53);
+
+    insert_f(&head1, 76);
+
+    insert_f(&head1, 89);
+
+    insert_f(&head1, 4);
+
+    insert_f(&head1, 59);
+
+    insert_f(&head1, 41);
+
+
+
+    /*Creating the second linked list*/
+
+    insert_f(&head2, 53);
+
+    insert_f(&head2,76);
+
+    insert_f(&head2, 89);
+
+    insert_f(&head2, 4);
+
+    insert_f(&head2, 59);
+
+    insert_f(&head2, 41);
+
+
+
+    printf("Linked List 1: ");
+
+    print_list(head1);
+
+
+
+    printf("Linked List 2: ");
+
+    print_list(head2);
+
+
+
+
+
+
+
+    printf("\nCheck Linked List 1 and Linked List 2\n");
+
+    if(check_if_equal(head1, head2)) {
+
+		printf("Linked List 1 and Linked List 2 are equal.\n");
+
+	} else {
+
+		printf("Linked List 1 and Linked List 2 are not equal.\n");
+
+	}
+
+    head1 = Merges(head1, head2);
+
+    print_list(head1);
+
+    return 0;
+
+}
+
+
+
+

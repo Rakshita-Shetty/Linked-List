@@ -1,0 +1,184 @@
+8.  Write a method which creates the intersection of elements from two lists.
+
+#include <stdio.h>
+
+#include <stdlib.h>
+
+
+
+struct Node
+
+{
+
+	int data;
+	struct Node* next;
+
+};
+
+
+
+void printList(struct Node* head)
+
+{
+
+	struct Node* ptr = head;
+
+	while (ptr)
+
+	{
+
+		printf("%d -> ", ptr->data);
+
+		ptr = ptr->next;
+
+	}
+
+
+
+	printf("NULL\n");
+
+}
+
+
+
+void push(struct Node** head, int data)
+
+{
+
+	struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+
+	newNode->data = data;
+
+	newNode->next = *head;
+
+	*head = newNode;
+
+}
+
+
+
+
+
+struct Node* SIntersect(struct Node* a, struct Node* b)
+
+{
+
+	struct Node *head = NULL;
+
+	struct Node* tail = NULL;
+
+
+
+	while (a != NULL && b != NULL)
+
+	{
+
+		if (a->data == b->data)
+
+		{
+
+			if (head == NULL)
+
+			{
+
+				push(&head, a->data);
+
+				tail=head;
+
+			}
+
+			else
+
+			{
+
+				push(&tail->next, a->data);
+
+				tail=tail->next;
+
+			}
+
+
+
+			a = a->next;
+
+			b = b->next;
+
+		}
+
+
+
+		// advance the smaller list
+
+		else if (a->data < b->data)
+
+			a = a->next;
+
+		else
+
+			b = b->next;
+
+	}
+
+	return head;
+
+}
+
+
+
+// main method
+
+int main(void)
+
+{
+
+	// input keys
+
+	int keys[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+
+	int n = sizeof(keys)/sizeof(keys[0]);
+
+
+
+	struct Node *a = NULL;
+
+	for (int i = n - 1; i >=0; i = i - 2)
+
+		push(&a, keys[i]);
+
+
+
+	struct Node *b = NULL;
+
+	for (int i = n - 1; i >=0; i = i - 1)
+
+		push(&b, keys[i]);
+
+
+
+	// print both linked list
+
+	printf("First List : ");
+
+	printList(a);
+
+
+
+	printf("Second List : ");
+
+	printList(b);
+
+
+
+	struct Node *head = SIntersect(a, b);
+
+
+
+	printf("\nAfter Intersection - ");
+
+	printList(head);
+
+
+
+	return 0;
+
+}

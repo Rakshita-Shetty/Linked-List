@@ -1,0 +1,155 @@
+5. Write a method to reverse the elements in the same list.
+
+#include <stdio.h>
+
+#include <stdlib.h>
+
+
+
+struct node {
+
+   int data;
+
+   struct node *next;
+
+};
+
+
+
+struct node *head = NULL;
+
+struct node *current = NULL;
+
+struct node *prev = NULL;
+
+
+
+//Create Linked List
+
+void insert(int data) {
+
+   // Allocate memory for new node;
+
+   struct node *link = (struct node*) malloc(sizeof(struct node));
+
+
+
+   link->data = data;
+
+   link->next = NULL;
+
+
+
+   // If head is empty, create new list
+
+   if(head==NULL) {
+
+      head = link;
+
+      return;
+
+   }
+
+
+
+   current = head;
+
+
+
+   // move to the end of the list
+
+   while(current->next!=NULL)
+
+      current = current->next;
+
+
+
+   // Insert link at the end of the list
+
+   current->next = link;
+
+}
+
+
+
+void display() {
+
+   struct node *ptr = head;
+
+
+
+   printf("[head] =>");
+
+   //start from the beginning
+
+   while(ptr != NULL) {
+
+      printf(" %d =>",ptr->data);
+
+      ptr = ptr->next;
+
+   }
+
+
+
+   printf(" [null]\n");
+
+}
+
+
+
+struct node *reverse(struct node *head){
+
+    struct node *prev = NULL;
+
+    struct node *link = NULL;
+
+    while(head != NULL )
+
+    {
+
+        link = head -> next;
+
+        head -> next = prev;
+
+        prev = head;
+
+        head = link;
+
+    }
+
+    head = prev;
+
+    return head;
+
+}
+
+
+
+
+
+int main() {
+
+
+
+    insert(100);
+
+    insert(200);
+
+    insert(300);
+
+    insert(400);
+
+    insert(450);
+
+    insert(4);
+
+    display();
+
+    head = reverse(head);
+
+    display();
+
+   return 0;
+
+}
